@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.0.1",
     "@tanstack/react-router": "^1.31.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
