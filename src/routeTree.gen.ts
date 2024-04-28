@@ -15,6 +15,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as LayoutUserRouteImport } from './routes/_layout/user/route'
+import { Route as authSignUpIndexImport } from './routes/(auth)/sign-up/index'
+import { Route as authSignInIndexImport } from './routes/(auth)/sign-in/index'
+import { Route as authSignUpSplatImport } from './routes/(auth)/sign-up/$'
+import { Route as authSignInSplatImport } from './routes/(auth)/sign-in/$'
 
 // Create Virtual Routes
 
@@ -43,6 +47,26 @@ const LayoutUserRouteRoute = LayoutUserRouteImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const authSignUpIndexRoute = authSignUpIndexImport.update({
+  path: '/sign-up/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authSignInIndexRoute = authSignInIndexImport.update({
+  path: '/sign-in/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authSignUpSplatRoute = authSignUpSplatImport.update({
+  path: '/sign-up/$',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authSignInSplatRoute = authSignInSplatImport.update({
+  path: '/sign-in/$',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -63,6 +87,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutUserRouteImport
       parentRoute: typeof LayoutImport
     }
+    '/(auth)/sign-in/$': {
+      preLoaderRoute: typeof authSignInSplatImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/sign-up/$': {
+      preLoaderRoute: typeof authSignUpSplatImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/sign-in/': {
+      preLoaderRoute: typeof authSignInIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/sign-up/': {
+      preLoaderRoute: typeof authSignUpIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -72,6 +112,10 @@ export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   LayoutRoute.addChildren([LayoutUserRouteRoute]),
   AboutLazyRoute,
+  authSignInSplatRoute,
+  authSignUpSplatRoute,
+  authSignInIndexRoute,
+  authSignUpIndexRoute,
 ])
 
 /* prettier-ignore-end */

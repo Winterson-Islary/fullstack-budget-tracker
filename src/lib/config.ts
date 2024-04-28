@@ -8,7 +8,6 @@ export const Config = {
 			const value = _Config[key]
 			if (!value) {
 				console.error(`${key} not found`)
-				console.log(value)
 				process.exit()
 			}
 			
