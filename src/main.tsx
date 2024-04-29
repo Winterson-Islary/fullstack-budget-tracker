@@ -1,19 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './styles/index.css'
 import { Config } from './lib/config.ts'
 import { ClerkProvider } from '@clerk/clerk-react'
-import { App } from './components/App.tsx'
+import { Router } from '@/components/Router.tsx'
+import './styles/index.css'
 
 
 
+// CLERK
 const PUBLISHABLE_KEY = Config.get("publishable_key")
 
 
+// RENDERER
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <App />
+      <Router />
     </ClerkProvider>
   </React.StrictMode>,
 )
