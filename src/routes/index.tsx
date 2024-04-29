@@ -1,5 +1,5 @@
 
-const Home = () => {
+const Index = () => {
   return (
 	<>
 		<h1 className="text-2xl font-bold">HOMEPAGE</h1>
@@ -7,4 +7,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Index
