@@ -1,7 +1,7 @@
 ### Fullstack-Budget-Tracker (POCKET-BUDDY)
 
 - Tools:
-  1.  TanStack Router.
+  1.  React Router Dom.
   2.  TanStack Query.
   3.  Clerk.
   4.  TailwindCSS.
