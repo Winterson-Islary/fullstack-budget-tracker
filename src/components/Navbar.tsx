@@ -2,6 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { UserButton } from "@clerk/clerk-react";
 import { Link, useLocation } from "react-router-dom";
+import { ThemeChanger } from "@/components/ThemeChanger";
 
 export const Navbar = () => {
 	return (
