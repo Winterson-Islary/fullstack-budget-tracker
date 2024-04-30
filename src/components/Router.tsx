@@ -3,9 +3,10 @@ import Index from '@/routes';
 import Sign_In from '@/routes/auth/sign-in';
 import Sign_Up from '@/routes/auth/sign-up';
 import Root from '@/routes/root';
-import ProtectRoute from '@/components/ProtectRoute';
+import ProtectRoute from '@/components/providers/ProtectRoute';
 import Dashboard from '@/routes/dashboard/dashboard';
 import DashboardLayout from '@/components/providers/DashboardLayout';
+import AuthLayout from '@/components/providers/AuthLayout';
 
 // ROUTER
 const router = createBrowserRouter([
@@ -31,11 +32,17 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/sign-in/*",
-				element: <Sign_In />
+				element: 
+					<AuthLayout>
+						<Sign_In />
+					</AuthLayout>
 			},
 			{
 				path: "/sign-up/*",
-				element: <Sign_Up />
+				element: 
+				<AuthLayout>
+					<Sign_Up />
+				</AuthLayout>
 			}
 		]
 	},

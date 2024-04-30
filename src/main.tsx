@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Config } from './lib/config.ts'
+import { Config } from '@/lib/config.ts'
 import { ClerkProvider } from '@clerk/clerk-react'
 import { Router } from '@/components/Router.tsx'
 import { ThemeProvider } from 'next-themes'
-import './styles/index.css'
+import '@/styles/index.css'
 
 
 
