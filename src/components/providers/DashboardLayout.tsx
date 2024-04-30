@@ -1,15 +1,13 @@
-import { ReactNode } from "react"
-import { Navbar } from "@/components/Navbar"
+import type { ReactNode } from "react";
+import { Navbar } from "@/components/Navbar";
 
-function layout({ children }: { children: ReactNode}) {
-  return (
-	<div className="relative flex h-screen w-full flex-col">
-		<Navbar />
-		<div className="w-full">
-			{children}	
+function layout({ children }: { children: ReactNode }) {
+	return (
+		<div className="relative flex h-screen w-full flex-col">
+			<Navbar />
+			<div className="w-full">{children}</div>
 		</div>
-	</div>
-  )
+	);
 }
 
-export default layout
+export default layout;

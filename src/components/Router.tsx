@@ -1,12 +1,12 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Index from '@/routes';
-import Sign_In from '@/routes/auth/sign-in';
-import Sign_Up from '@/routes/auth/sign-up';
-import Root from '@/routes/root';
-import ProtectRoute from '@/components/providers/ProtectRoute';
-import Dashboard from '@/routes/dashboard/dashboard';
-import DashboardLayout from '@/components/providers/DashboardLayout';
-import AuthLayout from '@/components/providers/AuthLayout';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Index from "@/routes";
+import Sign_In from "@/routes/auth/sign-in";
+import Sign_Up from "@/routes/auth/sign-up";
+import Root from "@/routes/root";
+import ProtectRoute from "@/components/providers/ProtectRoute";
+import Dashboard from "@/routes/dashboard/dashboard";
+import DashboardLayout from "@/components/providers/DashboardLayout";
+import AuthLayout from "@/components/providers/AuthLayout";
 
 // ROUTER
 const router = createBrowserRouter([
@@ -15,38 +15,41 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: 
+				element: (
 					<ProtectRoute>
 						<Index />
-					</ProtectRoute>,
-				index: true
+					</ProtectRoute>
+				),
+				index: true,
 			},
 			{
 				path: "/dashboard",
-				element: 
+				element: (
 					<ProtectRoute>
 						<DashboardLayout>
 							<Dashboard />
 						</DashboardLayout>
 					</ProtectRoute>
+				),
 			},
 			{
 				path: "/sign-in/*",
-				element: 
+				element: (
 					<AuthLayout>
 						<Sign_In />
 					</AuthLayout>
+				),
 			},
 			{
 				path: "/sign-up/*",
-				element: 
-				<AuthLayout>
-					<Sign_Up />
-				</AuthLayout>
-			}
-		]
+				element: (
+					<AuthLayout>
+						<Sign_Up />
+					</AuthLayout>
+				),
+			},
+		],
 	},
-
 ]);
 
 export const Router = () => {
@@ -54,5 +57,5 @@ export const Router = () => {
 		<>
 			<RouterProvider router={router} />
 		</>
-	)
-}
+	);
+};
