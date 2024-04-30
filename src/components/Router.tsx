@@ -1,12 +1,12 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthLayout from "@/components/providers/AuthLayout";
+import DashboardLayout from "@/components/providers/DashboardLayout";
+import ProtectRoute from "@/components/providers/ProtectRoute";
 import Index from "@/routes";
 import Sign_In from "@/routes/auth/sign-in";
 import Sign_Up from "@/routes/auth/sign-up";
-import Root from "@/routes/root";
-import ProtectRoute from "@/components/providers/ProtectRoute";
 import Dashboard from "@/routes/dashboard/dashboard";
-import DashboardLayout from "@/components/providers/DashboardLayout";
-import AuthLayout from "@/components/providers/AuthLayout";
+import Root from "@/routes/root";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 // ROUTER
 const router = createBrowserRouter([

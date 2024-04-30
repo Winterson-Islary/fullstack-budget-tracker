@@ -1,4 +1,3 @@
-
 export const _Config = {
 	publishable_key: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
 	sign_up_url: import.meta.env.VITE_CLERK_SIGN_UP_URL,
@@ -9,12 +8,12 @@ export const _Config = {
 
 export const Config = {
 	get(key: keyof typeof _Config) {
-			const value = _Config[key]
-			if (!value) {
-				console.error(`${key} not found`)
-				process.exit()
-			}
-			
-		return value
-	}
-}
+		const value = _Config[key];
+		if (!value) {
+			console.error(`${key} not found`);
+			process.exit();
+		}
+
+		return value;
+	},
+};

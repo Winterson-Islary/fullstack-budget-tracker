@@ -1,6 +1,6 @@
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import { buttonVariants } from "@/components/ui/button";
 
 export const Navbar = () => {
 	return (

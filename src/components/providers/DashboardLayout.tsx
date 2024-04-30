@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
 import { Navbar } from "@/components/Navbar";
+import type { ReactNode } from "react";
 
 function layout({ children }: { children: ReactNode }) {
 	return (

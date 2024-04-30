@@ -1,6 +1,6 @@
+import { AuthContext } from "@/components/AuthContext";
 import { type PropsWithChildren, useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { AuthContext } from "@/components/AuthContext";
 
 type ProtectedRouteProps = PropsWithChildren;
 
