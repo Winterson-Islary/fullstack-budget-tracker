@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { UserButton } from "@clerk/clerk-react";
 import { Link, useLocation } from "react-router-dom";
 
 export const Navbar = () => {
@@ -31,6 +32,10 @@ function DesktopNavbar() {
 							/>
 						))}
 					</div>
+				</div>
+				<div className="flex items-center gap-2">
+					<ThemeChanger />
+					<UserButton afterSignOutUrl="/sign-in" />
 				</div>
 			</nav>
 		</div>

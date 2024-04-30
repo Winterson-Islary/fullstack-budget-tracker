@@ -1,4 +1,3 @@
-// import { useAuthFromRoot } from "../root"
 import { AuthContext } from "@/components/AuthContext";
 import HandleSignedInUser from "@/components/HandleSignedInUser";
 import { Config } from "@/lib/config";
