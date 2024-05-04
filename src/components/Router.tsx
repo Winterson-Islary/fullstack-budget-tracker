@@ -7,6 +7,8 @@ import Sign_Up from "@/routes/auth/sign-up";
 import Dashboard from "@/routes/dashboard/dashboard";
 import Root from "@/routes/root";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import WizardLayout from "./providers/WizardLayout";
+import Wizard from "@/routes/wizard/wizard";
 
 // ROUTER
 const router = createBrowserRouter([
@@ -31,6 +33,17 @@ const router = createBrowserRouter([
 						</DashboardLayout>
 					</ProtectRoute>
 				),
+			},
+			{
+				path: "/wizard",
+				element: (
+					<ProtectRoute>
+						<WizardLayout>
+							<Wizard />
+						</WizardLayout>
+					</ProtectRoute>
+				),
+				index: true,
 			},
 			{
 				path: "/sign-in/*",

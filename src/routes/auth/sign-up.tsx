@@ -6,6 +6,7 @@ import { useContext } from "react";
 
 export default function Sign_Up() {
 	const auth = useContext(AuthContext);
+	const redirectLocation = Config.get("after_sign_up");
 
 	if (!auth?.isLoaded) {
 		return <div>Loading...</div>;
@@ -13,7 +14,10 @@ export default function Sign_Up() {
 	if (auth?.isLoaded && !auth?.isSignedIn) {
 		return (
 			<div>
-				<SignUp signInUrl={Config.get("sign_in_url")} />
+				<SignUp
+					signInUrl={Config.get("sign_in_url")}
+					forceRedirectUrl={redirectLocation}
+				/>
 			</div>
 		);
 	}
