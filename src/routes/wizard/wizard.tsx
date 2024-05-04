@@ -1,3 +1,4 @@
+import { CurrencyComboBox } from "@/components/CurrencyComboBox";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -37,7 +38,9 @@ function Wizard() {
 							Set your default currency for transactions
 						</CardDescription>
 					</CardHeader>
-					<CardContent>Placeholder</CardContent>
+					<CardContent>
+						<CurrencyComboBox />
+					</CardContent>
 				</Card>
 				<Separator />
 				<Button className="w-full" asChild>
