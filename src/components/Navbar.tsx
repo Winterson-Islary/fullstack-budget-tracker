@@ -1,11 +1,11 @@
+import { ThemeChanger } from "@/components/ThemeChanger";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { UserButton } from "@clerk/clerk-react";
-import { Link, useLocation } from "react-router-dom";
-import { ThemeChanger } from "@/components/ThemeChanger";
-import { useState } from "react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export const Navbar = () => {
 	return (

@@ -1,4 +1,3 @@
-import { useMediaQuery } from "@/hooks/user-media-query";
 import { Button } from "@/components/ui/button";
 import {
 	Command,
@@ -14,8 +13,9 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useMediaQuery } from "@/hooks/user-media-query";
 import { Currencies, type Currency } from "@/lib/currencies";
+import { useState } from "react";
 
 export function CurrencyComboBox() {
 	const [open, setOpen] = useState(false);

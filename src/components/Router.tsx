@@ -6,9 +6,9 @@ import Sign_In from "@/routes/auth/sign-in";
 import Sign_Up from "@/routes/auth/sign-up";
 import Dashboard from "@/routes/dashboard/dashboard";
 import Root from "@/routes/root";
+import Wizard from "@/routes/wizard/wizard";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import WizardLayout from "./providers/WizardLayout";
-import Wizard from "@/routes/wizard/wizard";
 
 // ROUTER
 const router = createBrowserRouter([
