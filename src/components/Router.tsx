@@ -9,6 +9,8 @@ import Root from "@/routes/root";
 import Wizard from "@/routes/wizard/wizard";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import WizardLayout from "./providers/WizardLayout";
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // ROUTER
 const router = createBrowserRouter([
@@ -66,9 +68,12 @@ const router = createBrowserRouter([
 ]);
 
 export const Router = () => {
+	const [queryClient] = useState(() => new QueryClient({}));
 	return (
 		<>
-			<RouterProvider router={router} />
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider router={router} />
+			</QueryClientProvider>
 		</>
 	);
 };

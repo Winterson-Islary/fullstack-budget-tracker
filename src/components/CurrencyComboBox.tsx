@@ -17,10 +17,19 @@ import { useMediaQuery } from "@/hooks/user-media-query";
 import { Currencies, type Currency } from "@/lib/currencies";
 import { useState } from "react";
 
+import { useQuery } from "@tanstack/react-query";
+
 export function CurrencyComboBox() {
 	const [open, setOpen] = useState(false);
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [selectedOption, setSelectedOption] = useState<Currency | null>(null);
+
+	const userSettings = useQuery({
+		queryKey: ["userSettings"],
+		queryFn: async () =>
+			fetch("http://localhost:3000/api/settings").then((res) => res.json()),
+	});
+	console.log("@@@ USER SETTINGS", userSettings);
 
 	if (isDesktop) {
 		return (
