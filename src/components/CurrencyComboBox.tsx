@@ -15,15 +15,12 @@ import {
 } from "@/components/ui/popover";
 import { useMediaQuery } from "@/hooks/user-media-query";
 import { Currencies, type Currency } from "@/lib/currencies";
+
+import { AuthContext } from "@/components/AuthContext";
+import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { useContext, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { AuthContext } from "@/components/AuthContext";
-import SkeletonWrapper from "@/components/SkeletonWrapper";
-import { useContext, useEffect, useState } from "react";
-
-import { useQuery } from "@tanstack/react-query";
-import { AuthContext } from "./AuthContext";
 
 export function CurrencyComboBox() {
 	const [open, setOpen] = useState(false);
@@ -31,7 +28,6 @@ export function CurrencyComboBox() {
 	const [selectedOption, setSelectedOption] = useState<Currency | null>(null);
 	const auth = useContext(AuthContext);
 
-	// useEffect(() => {
 	const userSettings = useQuery({
 		queryKey: ["userSettings"],
 		queryFn: async () =>
@@ -42,7 +38,6 @@ export function CurrencyComboBox() {
 			}).then((res) => res.json()),
 	});
 	console.log("@@@ USER SETTINGS", userSettings);
-	// }, [auth]);
 
 	if (isDesktop) {
 		return (
