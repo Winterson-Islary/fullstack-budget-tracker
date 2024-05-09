@@ -15,11 +15,18 @@ import {
 } from "@/components/ui/popover";
 import { useMediaQuery } from "@/hooks/user-media-query";
 import { Currencies, type Currency } from "@/lib/currencies";
+<<<<<<< HEAD
 import { useContext, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "@/components/AuthContext";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
+=======
+import { useContext, useEffect, useState } from "react";
+
+import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "./AuthContext";
+>>>>>>> 4a892128e79e2a776f810e7701bf6be900b65d66
 
 export function CurrencyComboBox() {
 	const [open, setOpen] = useState(false);
