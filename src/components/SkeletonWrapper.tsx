@@ -9,7 +9,7 @@ export default function SkeletonWrapper({
 }: { children: ReactNode; isLoading: boolean; fullWidth?: boolean }) {
 	if (!isLoading) return children;
 	return (
-		<Skeleton className={cn(fullWidth && "w-full")}>
+		<Skeleton className={cn(fullWidth && "w-full pointer-events-none")}>
 			<div className="opacity-0">{children}</div>
 		</Skeleton>
 	);

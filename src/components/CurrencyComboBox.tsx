@@ -21,6 +21,7 @@ import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { useContext, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import type { UserSettings } from "@/lib/types";
 
 export function CurrencyComboBox() {
 	const [open, setOpen] = useState(false);
@@ -28,7 +29,7 @@ export function CurrencyComboBox() {
 	const [selectedOption, setSelectedOption] = useState<Currency | null>(null);
 	const auth = useContext(AuthContext);
 
-	const userSettings = useQuery({
+	const userSettings = useQuery<UserSettings>({
 		queryKey: ["userSettings"],
 		queryFn: async () =>
 			fetch("http://localhost:3000/api/settings", {
@@ -64,21 +65,23 @@ export function CurrencyComboBox() {
 	}
 
 	return (
-		<Drawer open={open} onOpenChange={setOpen}>
-			<DrawerTrigger asChild>
-				<Button variant="outline" className="w-full justify-start">
-					{selectedOption ? <>{selectedOption.label}</> : <>+ Set currency</>}
-				</Button>
-			</DrawerTrigger>
-			<DrawerContent>
-				<div className="mt-4 border-t">
-					<CurrencyList
-						setOpen={setOpen}
-						setSelectedOption={setSelectedOption}
-					/>
-				</div>
-			</DrawerContent>
-		</Drawer>
+		<SkeletonWrapper isLoading={userSettings.isFetching}>
+			<Drawer open={open} onOpenChange={setOpen}>
+				<DrawerTrigger asChild>
+					<Button variant="outline" className="w-full justify-start">
+						{selectedOption ? <>{selectedOption.label}</> : <>+ Set currency</>}
+					</Button>
+				</DrawerTrigger>
+				<DrawerContent>
+					<div className="mt-4 border-t">
+						<CurrencyList
+							setOpen={setOpen}
+							setSelectedOption={setSelectedOption}
+						/>
+					</div>
+				</DrawerContent>
+			</Drawer>
+		</SkeletonWrapper>
 	);
 }
 
