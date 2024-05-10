@@ -18,7 +18,7 @@ import { Currencies, type Currency } from "@/lib/currencies";
 
 import { AuthContext } from "@/components/AuthContext";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import type { UserSettings } from "@/lib/types";
@@ -40,6 +40,14 @@ export function CurrencyComboBox() {
 	});
 	console.log("@@@ USER SETTINGS", userSettings);
 
+	useEffect(() => {
+		if (!userSettings.data) return;
+		const userCurrency = Currencies.find(
+			(currency) => currency.value === userSettings.data.currency,
+		);
+		if (userCurrency) setSelectedOption(userCurrency);
+	}, [userSettings.data]);
+	console.log(selectedOption);
 	if (isDesktop) {
 		return (
 			<SkeletonWrapper isLoading={userSettings.isFetching}>
