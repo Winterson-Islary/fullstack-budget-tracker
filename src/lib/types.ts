@@ -7,8 +7,8 @@ export type UserSettings = {
 	currency: string;
 };
 
-import { Currencies } from "./currencies";
 import { z } from "zod";
+import { Currencies } from "./currencies";
 
 export const UpdateUserCurrencySchema = z.object({
 	currency: z.custom((value) => {

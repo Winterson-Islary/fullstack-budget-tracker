@@ -7,10 +7,10 @@ import Sign_Up from "@/routes/auth/sign-up";
 import Dashboard from "@/routes/dashboard/dashboard";
 import Root from "@/routes/root";
 import Wizard from "@/routes/wizard/wizard";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import WizardLayout from "./providers/WizardLayout";
-import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // ROUTER
 const router = createBrowserRouter([
