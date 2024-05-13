@@ -21,7 +21,7 @@ import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import { UpdateUserCurrencySchema, type UserSettings } from "@/lib/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export function CurrencyComboBox() {
@@ -30,6 +30,7 @@ export function CurrencyComboBox() {
 	const [selectedOption, setSelectedOption] = useState<Currency | null>(null);
 	const auth = useContext(AuthContext);
 
+	const queryClient = useQueryClient();
 	const userSettings = useQuery<UserSettings>({
 		queryKey: ["userSettings"],
 		queryFn: async () =>
@@ -56,6 +57,7 @@ export function CurrencyComboBox() {
 			currency,
 		});
 		if (!parsedBody.success) throw parsedBody.error;
+
 		const updateResponse = await fetch("http://localhost:3000/api/settings", {
 			method: "POST",
 			headers: {
@@ -71,6 +73,12 @@ export function CurrencyComboBox() {
 	const mutation = useMutation({
 		mutationFn: UpdateUserCurrency,
 		onSuccess: (data: UserSettings) => {
+			queryClient.invalidateQueries({
+				queryKey: ["userSettings"],
+				exact: true,
+				refetchType: "active",
+			});
+
 			toast.success("Currency updated successfully", {
 				id: "toast-update-currency",
 			});
@@ -87,6 +95,7 @@ export function CurrencyComboBox() {
 	});
 	const selectOption = useCallback(
 		(currency: Currency | null) => {
+			if (currency?.value === selectedOption?.value) return;
 			if (!currency) {
 				toast.error("Please select a currency");
 				return;
@@ -96,7 +105,7 @@ export function CurrencyComboBox() {
 			});
 			mutation.mutate(currency.value);
 		},
-		[mutation],
+		[mutation, selectedOption],
 	);
 
 	if (isDesktop) {
