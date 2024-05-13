@@ -10,7 +10,7 @@ export type UserSettings = {
 import { Currencies } from "./currencies";
 import { z } from "zod";
 
-export const UpdateUserSettingsSchema = z.object({
+export const UpdateUserCurrencySchema = z.object({
 	currency: z.custom((value) => {
 		const found = Currencies.some((currency) => currency.value === value);
 		if (!found) {
