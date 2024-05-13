@@ -31,7 +31,7 @@ export function CurrencyComboBox() {
 	const auth = useContext(AuthContext);
 
 	const queryClient = useQueryClient();
-	const userSettings = useQuery<UserSettings>({
+	const userSettings = useQuery({
 		queryKey: ["userSettings"],
 		queryFn: async () =>
 			fetch("http://localhost:3000/api/settings", {
@@ -40,16 +40,16 @@ export function CurrencyComboBox() {
 				},
 			}).then((res) => res.json()),
 	});
-	console.log("@@@ USER SETTINGS", userSettings);
+	console.log("@@@ USER SETTINGS", userSettings.data?.settings.currency);
 
 	useEffect(() => {
 		if (!userSettings.data) return;
-		console.log(userSettings.data);
 		const userCurrency = Currencies.find(
-			(currency) => currency.value === userSettings.data.currency,
+			(currency) => currency.value === userSettings.data.settings.currency,
 		);
 		if (userCurrency) setSelectedOption(userCurrency);
 	}, [userSettings.data]);
+
 	console.log(selectedOption);
 
 	const UpdateUserCurrency = async (currency: string) => {
