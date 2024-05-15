@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
+	//! Querying userSettings from backend
 	return (
 		<div className="mt-2">
 			<span>
