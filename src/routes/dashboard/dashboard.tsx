@@ -3,15 +3,13 @@ import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
 
 export default function Dashboard() {
 	const auth = useContext(AuthContext);
 	const { user, isLoaded } = useUser();
-	const isLoading = useMemo(() => {
-		return isLoaded;
-	}, [isLoaded]);
+
 	const userSettings = useQuery({
 		queryKey: ["useSettings"],
 		queryFn: async () =>
@@ -32,7 +30,7 @@ export default function Dashboard() {
 					Go to Home{" "}
 				</Link>
 				<div className="container flex flex-wrap items-center justify-between gap-6 py-8">
-					<SkeletonWrapper isLoading={isLoading}>
+					<SkeletonWrapper isLoading={!isLoaded}>
 						<p className="text-3xl font-bold">Hello, {user?.firstName}!</p>
 					</SkeletonWrapper>
 					<div className="flex items-center gap-3">
