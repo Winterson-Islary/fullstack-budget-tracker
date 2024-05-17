@@ -1,4 +1,5 @@
 import { AuthContext } from "@/components/AuthContext";
+import CreateTransactionDialog from "@/components/CreateTransactionDialog";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
@@ -32,10 +33,17 @@ export default function Dashboard() {
 				<div className="container flex flex-wrap items-center justify-between gap-6 py-8">
 					<SkeletonWrapper isLoading={!isLoaded}>
 						<p className="text-3xl font-bold">Hello, {user?.firstName}!</p>
+						<div className="flex items-center gap-3">
+							<CreateTransactionDialog
+								trigger={<Button variant={"outline"}>New income 💵</Button>}
+								type="income"
+							/>
+							<CreateTransactionDialog
+								trigger={<Button variant={"outline"}>New expense 💸</Button>}
+								type="expense"
+							/>
+						</div>
 					</SkeletonWrapper>
-					<div className="flex items-center gap-3">
-						<Button variant={"outline"}>New income 💵</Button>
-					</div>
 				</div>
 			</div>
 		</div>

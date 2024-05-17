@@ -19,3 +19,5 @@ export const UpdateUserCurrencySchema = z.object({
 		return value;
 	}),
 });
+
+export type TransactionType = "income" | "expense";
