@@ -7,6 +7,7 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
+import Cookies from "js-cookie";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import {
 	Popover,
@@ -28,17 +29,28 @@ export function CurrencyComboBox() {
 	const [open, setOpen] = useState(false);
 	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const [selectedOption, setSelectedOption] = useState<Currency | null>(null);
+	const [sessionCookie, setSessionCookie] = useState<string | undefined>(
+		undefined,
+	);
 	const auth = useContext(AuthContext);
+
+	useEffect(() => {
+		setSessionCookie(Cookies.get("__session"));
+	}, []);
 
 	const queryClient = useQueryClient();
 	const userSettings = useQuery({
 		queryKey: ["userSettings"],
 		queryFn: async () =>
 			fetch("http://localhost:3000/api/settings", {
+				credentials: "include",
 				headers: {
 					Authorization: `Bearer ${await auth?.getToken()}`,
+					Cookie: `session=${sessionCookie}`,
 				},
 			}).then((res) => res.json()),
+		refetchOnMount: "always",
+		refetchOnWindowFocus: true,
 	});
 	console.log("@@@ USER SETTINGS", userSettings.data?.settings.currency);
 
