@@ -22,7 +22,8 @@ import {
 	FormItem,
 	FormLabel,
 } from "./ui/form";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
+import CategoryPicker from "@/components/CategoryPicker";
 
 interface Props {
 	trigger: ReactNode;
@@ -96,7 +97,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>Category</FormLabel>
-										{/* <FormControl>//!Make A Category Picker</FormControl> */}
+										<CategoryPicker type={type} />
 										<FormDescription>
 											Select a category for this transaction
 										</FormDescription>
