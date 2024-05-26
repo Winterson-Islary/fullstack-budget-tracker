@@ -94,9 +94,9 @@ function CreateTransactionDialog({ trigger, type }: Props) {
 							<FormField
 								control={form.control}
 								name="category"
-								render={({ field }) => (
+								render={(/*{ field }*/) => (
 									<FormItem>
-										<FormLabel>Category</FormLabel>
+										<FormLabel className="mr-3">Category</FormLabel>
 										<CategoryPicker type={type} />
 										<FormDescription>
 											Select a category for this transaction

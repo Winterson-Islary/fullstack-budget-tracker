@@ -4,19 +4,27 @@ import SkeletonWrapper from "@/components/SkeletonWrapper";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import Cookies from "js-cookie";
+import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
 export default function Dashboard() {
 	const auth = useContext(AuthContext);
 	const { user, isLoaded } = useUser();
-
+	const [sessionCookie, setSessionCookie] = useState<string | undefined>(
+		undefined,
+	);
+	useEffect(() => {
+		setSessionCookie(Cookies.get("__session"));
+	}, []);
 	const userSettings = useQuery({
 		queryKey: ["useSettings"],
 		queryFn: async () =>
 			fetch("http://localhost:3000/api/settings", {
+				credentials: "include",
 				headers: {
 					Authorization: `Bearer ${await auth?.getToken()}`,
+					Cookie: `session=${sessionCookie}`,
 				},
 			}).then((res) => res.json()),
 	});
