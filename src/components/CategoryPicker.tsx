@@ -37,19 +37,25 @@ function CategoryPicker({ type }: Props) {
 	}, []);
 	const categoriesQuery = useQuery({
 		queryKey: ["categories", type],
-		queryFn: async () =>
-			fetch(`http://localhost:3000/api/categories?type=${type}`, {
-				credentials: "include",
-				headers: {
-					Authorization: `Bearer ${await auth?.getToken()}`,
-					Cookie: `session=${sessionCookie}`,
+		queryFn: async () => {
+			const res = await fetch(
+				`http://localhost:3000/api/categories?type=${type}`,
+				{
+					credentials: "include",
+					headers: {
+						Authorization: `Bearer ${await auth?.getToken()}`,
+						Cookie: `session=${sessionCookie}`,
+					},
 				},
-			}).then((res) => res.json()),
+			);
+			return res.json();
+		},
 	});
-	console.log(categoriesQuery);
-	const selectedCategory = categoriesQuery.data?.category.filter(
+
+	const selectedCategory = categoriesQuery.data?.dbQueryResult.filter(
 		(category: Category) => category.name === value,
 	);
+
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
@@ -82,7 +88,7 @@ function CategoryPicker({ type }: Props) {
 					</CommandEmpty>
 					<CommandGroup>
 						<CommandList>
-							{categoriesQuery.data?.category.map((category: Category) => (
+							{categoriesQuery.data?.dbQueryResult.map((category: Category) => (
 								<CommandItem
 									key={category.name}
 									onSelect={(currentValue) => {
