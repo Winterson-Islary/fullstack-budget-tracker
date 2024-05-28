@@ -14,7 +14,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "./ui/dialog";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { PlusSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -26,6 +26,7 @@ import {
 	FormLabel,
 } from "./ui/form";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
 
 interface Props {
 	type: TransactionType;
@@ -80,6 +81,31 @@ function CreateCategoryDialog({ type }: Props) {
 									</FormControl>
 									<FormDescription>
 										Category description (Optional)
+									</FormDescription>
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="icon"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Icon</FormLabel>
+									<FormControl>
+										<Popover>
+											<PopoverTrigger asChild>
+												<Button variant="outline" className="h-[100px] w-full">
+													{form.watch("icon") ? (
+														<div>Selected Icon</div>
+													) : (
+														<div>No selection</div>
+													)}
+												</Button>
+											</PopoverTrigger>
+										</Popover>
+									</FormControl>
+									<FormDescription>
+										Set an Icon to represent your category in the app
 									</FormDescription>
 								</FormItem>
 							)}
