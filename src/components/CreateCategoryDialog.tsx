@@ -1,21 +1,24 @@
 import {
+	type Category,
 	CreateCategorySchema,
 	type CreateCategorySchemaType,
 	type TransactionType,
 } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from "./ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CircleOff, PlusSquare } from "lucide-react";
+import { CircleOff, Loader2, PlusSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
 	Form,
@@ -24,7 +27,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
-} from "./ui/form";
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
 	Popover,
@@ -33,17 +36,77 @@ import {
 } from "@/components/ui/popover";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { AuthContext } from "./AuthContext";
+import Cookies from "js-cookie";
 interface Props {
 	type: TransactionType;
 }
 function CreateCategoryDialog({ type }: Props) {
 	const [open, setOpen] = useState(false);
+	const [sessionCookie, setSessionCookie] = useState<string | undefined>(
+		undefined,
+	);
+	const auth = useContext(AuthContext);
+	useEffect(() => {
+		setSessionCookie(Cookies.get("__session"));
+	}, []);
 	const form = useForm<CreateCategorySchemaType>({
 		resolver: zodResolver(CreateCategorySchema),
 		defaultValues: {
 			type,
 		},
 	});
+	const queryClient = useQueryClient();
+	const CreateCategory = async (values: CreateCategorySchemaType) => {
+		const parsedBody = CreateCategorySchema.safeParse(values);
+		console.log(parsedBody);
+		if (!parsedBody.success) throw new Error("bad request");
+		const updateResponse = await fetch("http://localhost:3000/api/categories", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${await auth?.getToken()}`,
+				Cookie: `session=${sessionCookie}`,
+			},
+			body: JSON.stringify(parsedBody.data),
+		});
+		return updateResponse.json();
+	};
+	const { mutate, isPending } = useMutation({
+		mutationFn: CreateCategory,
+		onSuccess: async (data: Category) => {
+			form.reset({
+				name: "",
+				icon: "",
+				type,
+			});
+			toast.success(`Category ${data.name} created successfully`, {
+				id: "create-category",
+			});
+			await queryClient.invalidateQueries({
+				queryKey: ["categories"],
+			});
+			setOpen((prev) => !prev);
+		},
+		onError: () => {
+			toast.error("something went wrong", {
+				id: "create-category",
+			});
+		},
+	});
+
+	const formSubmit = useCallback(
+		(values: CreateCategorySchemaType) => {
+			toast.loading("creating category...", {
+				id: "create-category",
+			});
+			mutate(values);
+		},
+		[mutate],
+	);
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
@@ -74,7 +137,7 @@ function CreateCategoryDialog({ type }: Props) {
 					</DialogDescription>
 				</DialogHeader>
 				<Form {...form}>
-					<form className="space-y-8">
+					<form onSubmit={form.handleSubmit(formSubmit)} className="space-y-8">
 						<FormField
 							control={form.control}
 							name="name"
@@ -130,13 +193,30 @@ function CreateCategoryDialog({ type }: Props) {
 										</Popover>
 									</FormControl>
 									<FormDescription>
-										Set an Icon to represent your category in the app
+										Set an icon for your category to appear in the app
 									</FormDescription>
 								</FormItem>
 							)}
 						/>
 					</form>
 				</Form>
+				<DialogFooter>
+					<DialogClose asChild>
+						<Button
+							type="button"
+							variant="secondary"
+							onClick={() => {
+								form.reset();
+							}}
+						>
+							Cancel
+						</Button>
+					</DialogClose>
+					<Button onClick={form.handleSubmit(formSubmit)} disabled={isPending}>
+						{!isPending && "Create"}
+						{isPending && <Loader2 className="animate-spin" />}
+					</Button>
+				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);
