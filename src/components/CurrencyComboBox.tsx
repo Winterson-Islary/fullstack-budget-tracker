@@ -52,7 +52,7 @@ export function CurrencyComboBox() {
 		refetchOnMount: "always",
 		refetchOnWindowFocus: true,
 	});
-	console.log("@@@ USER SETTINGS", userSettings.data?.settings.currency);
+	// console.log("@@@ USER SETTINGS =>", userSettings.data?.settings.currency);
 
 	useEffect(() => {
 		if (!userSettings.data) return;
@@ -62,7 +62,7 @@ export function CurrencyComboBox() {
 		if (userCurrency) setSelectedOption(userCurrency);
 	}, [userSettings.data]);
 
-	console.log(selectedOption);
+	// console.log(selectedOption);
 
 	const UpdateUserCurrency = async (currency: string) => {
 		const parsedBody = UpdateUserCurrencySchema.safeParse({
@@ -72,9 +72,11 @@ export function CurrencyComboBox() {
 
 		const updateResponse = await fetch("http://localhost:3000/api/settings", {
 			method: "POST",
+			credentials: "include",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${await auth?.getToken()}`,
+				Cookie: `session=${sessionCookie}`,
 			},
 
 			body: JSON.stringify({ currency: currency }),
