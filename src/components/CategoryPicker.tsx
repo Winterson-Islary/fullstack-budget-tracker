@@ -52,9 +52,10 @@ function CategoryPicker({ type }: Props) {
 		},
 	});
 
-	const selectedCategory = categoriesQuery.data?.dbQueryResult.filter(
-		(category: Category) => category.name === value,
-	);
+	const selectedCategory =
+		categoriesQuery.data?.dbQueryResult.filter(
+			(category: Category) => category.name === value,
+		) || [];
 
 	const successCallback = useCallback((category: Category) => {
 		setValue(category.name);

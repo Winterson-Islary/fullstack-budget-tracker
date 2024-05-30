@@ -64,7 +64,7 @@ function CreateCategoryDialog({ type, successCallback }: Props) {
 	const queryClient = useQueryClient();
 	const CreateCategory = async (values: CreateCategorySchemaType) => {
 		const parsedBody = CreateCategorySchema.safeParse(values);
-		console.log(parsedBody);
+
 		if (!parsedBody.success) throw new Error("bad request");
 		const updateResponse = await fetch("http://localhost:3000/api/categories", {
 			method: "POST",
@@ -86,6 +86,7 @@ function CreateCategoryDialog({ type, successCallback }: Props) {
 				icon: "",
 				type,
 			});
+
 			toast.success(`Category ${data.name} created successfully`, {
 				id: "create-category",
 			});
