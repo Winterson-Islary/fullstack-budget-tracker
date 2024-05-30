@@ -40,10 +40,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AuthContext } from "./AuthContext";
 import Cookies from "js-cookie";
+import { useTheme } from "next-themes";
 interface Props {
 	type: TransactionType;
+	successCallback: (category: Category) => void;
 }
-function CreateCategoryDialog({ type }: Props) {
+function CreateCategoryDialog({ type, successCallback }: Props) {
 	const [open, setOpen] = useState(false);
 	const [sessionCookie, setSessionCookie] = useState<string | undefined>(
 		undefined,
@@ -58,6 +60,7 @@ function CreateCategoryDialog({ type }: Props) {
 			type,
 		},
 	});
+	const theme = useTheme();
 	const queryClient = useQueryClient();
 	const CreateCategory = async (values: CreateCategorySchemaType) => {
 		const parsedBody = CreateCategorySchema.safeParse(values);
@@ -86,6 +89,9 @@ function CreateCategoryDialog({ type }: Props) {
 			toast.success(`Category ${data.name} created successfully`, {
 				id: "create-category",
 			});
+
+			successCallback(data);
+
 			await queryClient.invalidateQueries({
 				queryKey: ["categories"],
 			});
@@ -145,10 +151,10 @@ function CreateCategoryDialog({ type }: Props) {
 								<FormItem>
 									<FormLabel>Name</FormLabel>
 									<FormControl>
-										<Input defaultValue={""} {...field} />
+										<Input placeholder="Category" {...field} />
 									</FormControl>
 									<FormDescription>
-										Category description (Optional)
+										This is how your category will appear in the app
 									</FormDescription>
 								</FormItem>
 							)}
@@ -185,6 +191,7 @@ function CreateCategoryDialog({ type }: Props) {
 											<PopoverContent className="w-full">
 												<Picker
 													data={data}
+													theme={theme.resolvedTheme}
 													onEmojiSelect={(emoji: { native: string }) => {
 														field.onChange(emoji.native);
 													}}
