@@ -1,6 +1,6 @@
 import type { Category, TransactionType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/components/AuthContext";
 import Cookies from "js-cookie";
 import {
@@ -18,7 +18,7 @@ import {
 	CommandList,
 } from "@/components/ui/command";
 import CreateCategoryDialog from "@/components/CreateCategoryDialog";
-import { Check } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -56,6 +56,11 @@ function CategoryPicker({ type }: Props) {
 		(category: Category) => category.name === value,
 	);
 
+	const successCallback = useCallback((category: Category) => {
+		setValue(category.name);
+		setOpen((prev) => !prev);
+	}, []);
+
 	return (
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
@@ -65,11 +70,12 @@ function CategoryPicker({ type }: Props) {
 					aria-expanded={open}
 					className="w-[200px] justify-between"
 				>
-					{selectedCategory ? (
-						<CategoryRow category={selectedCategory} />
+					{selectedCategory.length !== 0 ? (
+						<CategoryRow category={selectedCategory[0]} />
 					) : (
-						"Select Category"
+						"Select category"
 					)}
+					<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-[200px] p-0">
@@ -79,7 +85,7 @@ function CategoryPicker({ type }: Props) {
 					}}
 				>
 					<CommandInput placeholder="Search Category..." />
-					<CreateCategoryDialog type={type} />
+					<CreateCategoryDialog type={type} successCallback={successCallback} />
 					<CommandEmpty>
 						<p>Category not found</p>
 						<p className="text-xs text-muted-foreground">
