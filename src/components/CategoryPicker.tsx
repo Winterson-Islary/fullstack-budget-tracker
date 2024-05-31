@@ -23,15 +23,21 @@ import { cn } from "@/lib/utils";
 
 interface Props {
 	type: TransactionType;
+	onChange: (value: string) => void;
 }
 
-function CategoryPicker({ type }: Props) {
-	const [sessionCookie, setSessionCookie] = useState<string | undefined>(
-		undefined,
-	);
+function CategoryPicker({ type, onChange }: Props) {
 	const [value, setValue] = useState("");
 	const [open, setOpen] = useState(false);
 	const auth = useContext(AuthContext);
+	const [sessionCookie, setSessionCookie] = useState<string | undefined>(
+		undefined,
+	);
+	useEffect(() => {
+		if (!value) return;
+		onChange(value);
+	}, [value, onChange]);
+
 	useEffect(() => {
 		setSessionCookie(Cookies.get("__session"));
 	}, []);
