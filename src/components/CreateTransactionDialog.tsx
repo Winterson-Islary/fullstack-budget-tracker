@@ -3,7 +3,13 @@ import {
 	type CreateTransactionSchemaType,
 	type TransactionType,
 } from "@/lib/types";
-import { useCallback, type ReactNode } from "react";
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useState,
+	type ReactNode,
+} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -24,14 +30,21 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "./ui/form";
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CategoryPicker from "@/components/CategoryPicker";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "./ui/button";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import Cookies from "js-cookie";
+import { AuthContext } from "./AuthContext";
+import { json } from "stream/consumers";
 
 interface Props {
 	trigger: ReactNode;
@@ -39,6 +52,13 @@ interface Props {
 }
 
 function CreateTransactionDialog({ trigger, type }: Props) {
+	const [sessionCookie, setSessionCookie] = useState<string | undefined>(
+		undefined,
+	);
+	useEffect(() => {
+		setSessionCookie(Cookies.get("__session"));
+	}, []);
+	const auth = useContext(AuthContext);
 	const form = useForm<CreateTransactionSchemaType>({
 		resolver: zodResolver(CreateTransactionSchema),
 		defaultValues: {
@@ -46,7 +66,24 @@ function CreateTransactionDialog({ trigger, type }: Props) {
 			date: new Date(),
 		},
 	});
-
+	const CreateTransaction = async (values: CreateTransactionSchemaType) => {
+		const parsedBody = CreateTransactionSchema.safeParse(values);
+		if (!parsedBody.success) throw new Error(parsedBody.error.message);
+		const queryResponse = await fetch(
+			"http://localhost:3000/api/transactions",
+			{
+				method: "POST",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${auth?.getToken()}`,
+					Cookie: `session=${sessionCookie}`,
+				},
+				body: JSON.stringify(parsedBody),
+			},
+		);
+		return await queryResponse.json();
+	}; //! COMPLETE THE createTRANSACTION IMPLEMENTATION
 	const handleCategoryChange = useCallback(
 		(value: string) => {
 			form.setValue("category", value);
