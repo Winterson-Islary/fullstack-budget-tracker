@@ -8,7 +8,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -21,6 +23,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from "./ui/form";
 import { Input } from "@/components/ui/input";
 import CategoryPicker from "@/components/CategoryPicker";
@@ -157,12 +160,30 @@ function CreateTransactionDialog({ trigger, type }: Props) {
 										<FormDescription>
 											Select a date for this transaction
 										</FormDescription>
+										<FormMessage />
 									</FormItem>
 								)}
 							/>
 						</div>
 					</form>
 				</Form>
+				<DialogFooter>
+					<DialogClose asChild>
+						<Button
+							type="button"
+							variant="secondary"
+							onClick={() => {
+								form.reset();
+							}}
+						>
+							Cancel
+						</Button>
+					</DialogClose>
+					<Button onClick={form.handleSubmit(formSubmit)} disabled={isPending}>
+						{!isPending && "Create"}
+						{isPending && <Loader2 className="animate-spin" />}
+					</Button>
+				</DialogFooter>
 			</DialogContent>
 		</Dialog>
 	);
